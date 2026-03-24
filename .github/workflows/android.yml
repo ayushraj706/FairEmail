@@ -22,18 +22,21 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
+
+    # Yeh step build ko fast karega (Caching)
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
     - name: Build Debug APK
-      # Hum 'assembleDebug' use karenge kyunki isme password nahi lagta
       run: ./gradlew assembleDebug
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
-        name: FairEmail-Debug-APK
-        path: app/build/outputs/apk/debug/*.apk
+        name: FairEmail-Debug-APKs
+        # '**/apk/**/*.apk' se yeh saare folders mein APK dhoond lega
+        path: app/build/outputs/apk/**/*.apk
         
